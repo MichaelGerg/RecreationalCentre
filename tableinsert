@@ -1,0 +1,17 @@
+INSERT INTO Department VALUES('Squash', 'Area1');
+
+INSERT INTO Classes_Offers VALUES(100, 'Squash100', 'Squash');
+
+INSERT INTO Instructor_Works VALUES(1, 'Squash', 'Walrus', 'PHD');
+
+INSERT INTO Teaches VALUES('Monday', 100, 100, 1);
+
+INSERT INTO MEMBERSHIPS VALUES('Gold', 200, '1 year');
+
+INSERT INTO PurchasedMemberships VALUES('Gold', 07062018, 07062019);
+
+INSERT INTO MemberInfo VALUES(11, 'Gold', '333 Boyne St', 37, 'Walrus', 07062018);
+
+INSERT INTO MemberInfo VALUES(12, 'gold', '', 2, 'nope', 07062018 );
+
+INSERT INTO Referred VALUES(12, 11 );

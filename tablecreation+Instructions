@@ -1,0 +1,121 @@
+1. Download Xampp and run Apache and MySQL Database
+
+2. After installed, Insert Files into htdocs folder from the Xampp installation
+   This should be located in a directory from ..opt/lampp/htdocs but it could 
+   be different depending on your Xampp installation
+
+3. Visit localhost/phpmyadmin
+
+4. Create a database called "Recreational centre" and input the following sql to create the tables
+
+5. Input the corresponding sql from table insert into the corresponding tables
+
+6. Visit "localhost/welcome.php" to create an account
+
+7. Create an account and log in
+
+8. Navigate through website as desired. Different interfaces are accesible through the home tab.
+
+
+
+Accomplished:
+
+We created a Functional Database for a hypothetical Rec centre that follows a barebones prototype involving only two interfaces for a user and class Instructor. Within these Interfaces we set up the functionality for differnt queries such as Selection, Projection, Update, Insertion, Deletion, Division, Join, as well as aggregations and nested aggregations that are able to alter the currently existing database info.
+
+
+CREATE TABLE Department(
+Dname CHAR(20),
+Location CHAR(50),
+PRIMARY KEY(Dname));
+
+CREATE TABLE Classes_Offers(
+Cnum INTEGER,
+Cname CHAR(20),
+Dname CHAR(20),
+PRIMARY KEY(Cnum, Dname),
+FOREIGN KEY(Dname) REFERENCES Department(Dname)
+ON DELETE CASCADE
+ON UPDATE CASCADE);
+
+CREATE TABLE Instructor_Works(
+IID INTEGER,
+Dname CHAR (20),
+Iname CHAR (50),
+Certification CHAR (50),
+PRIMARY KEY (IID),
+FOREIGN KEY(Dname) REFERENCES Department(Dname)
+ON DELETE CASCADE
+ON UPDATE CASCADE);
+
+CREATE TABLE Teaches(
+Day CHAR(20),
+Times INTEGER,
+Cnum INTEGER,
+IID INTEGER,
+PRIMARY KEY (IID, Cnum, Times, Day),
+FOREIGN KEY (Cnum) REFERENCES Classes_Offers(Cnum)
+ON DELETE CASCADE
+ON UPDATE CASCADE,
+FOREIGN KEY (IID) REFERENCES Instructor_Works(IID)
+ON DELETE CASCADE
+ON UPDATE CASCADE);
+
+
+CREATE TABLE MEMBERSHIPS(
+Type CHAR(20),
+Price INTEGER,
+Mday CHAR(10),
+PRIMARY KEY (Type));
+
+CREATE TABLE PurchasedMemberships(
+Type CHAR(20),
+DateCreated DATE,
+ExpiryDate DATE,
+PRIMARY KEY (Type, DateCreated),
+FOREIGN KEY (Type) REFERENCES MEMBERSHIPS(Type)
+ON DELETE CASCADE
+ON UPDATE CASCADE);
+
+CREATE TABLE MemberInfo(
+MID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+Type CHAR (20),
+Address CHAR (50),
+Age INTEGER,
+Name CHAR (50),
+DateCreated DATE,
+FOREIGN KEY (Type, DateCreated) REFERENCES PurchasedMemberships(Type, DateCreated)
+ON DELETE CASCADE
+ON UPDATE CASCADE);
+
+CREATE TABLE Enrolls(
+MID INTEGER,
+Cnum INTEGER,
+Dname CHAR(50),
+PRIMARY KEY (MID, Cnum, Dname),
+FOREIGN KEY (MID) REFERENCES MemberInfo(MID)
+ON DELETE CASCADE
+ON UPDATE CASCADE,
+FOREIGN KEY(Cnum, Dname) REFERENCES Classes_Offers(Cnum, Dname)
+ON DELETE CASCADE
+ON UPDATE CASCADE);
+
+CREATE TABLE users (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Referred(
+ReferralMID INTEGER,
+NotReferredMID INTEGER,
+PRIMARY KEY (ReferralMID, NotReferredMID),
+FOREIGN KEY (NotReferredMID) REFERENCES MemberInfo(MID)
+ON DELETE CASCADE
+ON UPDATE CASCADE,
+FOREIGN KEY (ReferralMID) REFERENCES MemberInfo(MID)
+ON DELETE CASCADE
+ON UPDATE CASCADE);
+
+
+
